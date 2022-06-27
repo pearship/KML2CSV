@@ -57,7 +57,7 @@ public class KML2CSV {
 					for (int k = 0; k < placemarks.size(); k++) {
 
 						Element placemark = placemarks.get(k);
-						String id = placemark.getFirstChildElement("name", url).getValue();
+						String id = airportName + "-" + placemark.getFirstChildElement("name", url).getValue();
 						String description = placemark.getFirstChildElement("description", url).getValue();
 						String coord = placemark.getFirstChildElement("Point", url).getFirstChildElement("coordinates", url).getValue();
 
@@ -75,11 +75,11 @@ public class KML2CSV {
 						String[] data = connectedProperty.split("/");
 						String connectedNodeId = data[0].trim();
 						String connectedNodeType = data[1];
-						String linkId = n.getId() + "-" + connectedNodeId;
+						String linkId = n.getId() + "=" + connectedNodeId;
 						String linkType = data[2];
 						LinkElement link = new LinkElement(linkId, linkType);
 						link.setNode1(n);
-						link.setNode2(airport.getNode(connectedNodeId, connectedNodeType));
+						link.setNode2(airport.getNode(airport.getId() + "-" + connectedNodeId, connectedNodeType));
 						airport.addLink(link);
 					}
 				}
